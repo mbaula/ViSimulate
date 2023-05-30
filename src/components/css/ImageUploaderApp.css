@@ -1,0 +1,26 @@
+.image-container {
+    display: flex;
+    margin-top: 20px;
+  }
+  
+  .selected-image {
+    flex: 1;
+    margin-right: 10px;
+  }
+  
+  .transformed-image {
+    flex: 1;
+    margin-left: 10px;
+  }
+  
+  @media (max-width: 768px) {
+    .image-container {
+      flex-direction: column;
+    }
+  
+    .selected-image,
+    .transformed-image {
+      margin: 0;
+    }
+  }
+  
