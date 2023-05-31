@@ -1,26 +1,38 @@
 .image-container {
     display: flex;
     margin-top: 20px;
-  }
+}
   
-  .selected-image {
+.selected-image {
     flex: 1;
     margin-right: 10px;
-  }
+}
   
-  .transformed-image {
+.transformed-image {
     flex: 1;
     margin-left: 10px;
-  }
+}
   
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
     .image-container {
-      flex-direction: column;
+        flex-direction: column;
     }
   
     .selected-image,
     .transformed-image {
-      margin: 0;
+        margin: 0;
     }
   }
   
+.selector-container {
+        display: flex;
+        align-items: center;
+}
+  
+.selector-container select {
+        margin-right: 10px;
+}
+  
+  .impairment-description {
+        margin-left: 10px;
+}
