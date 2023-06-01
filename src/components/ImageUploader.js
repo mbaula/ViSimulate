@@ -9,7 +9,7 @@ const ImageUploader = ({ onImageUpload }) => {
   return (
     <div>
       <h2>Upload an Image</h2>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <input type="file" accept="image/png, image/jpeg" onChange={handleImageChange} />
     </div>
   );
 };
