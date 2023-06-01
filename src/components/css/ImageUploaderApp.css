@@ -25,14 +25,14 @@
   }
   
 .selector-container {
-        display: flex;
-        align-items: center;
+    display: flex;
+    align-items: center;
 }
   
 .selector-container select {
-        margin-right: 10px;
+    margin-right: 10px;
 }
   
-  .impairment-description {
-        margin-left: 10px;
+.impairment-description {
+    margin-left: 10px;
 }
