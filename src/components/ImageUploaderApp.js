@@ -66,33 +66,35 @@ const ImageUploaderApp = () => {
 
         <div className="image-container">
             <div className="selected-image">
-            {selectedImage && (
+                {selectedImage && (
                 <div>
-                <h3>Selected Image:</h3>
-                <img
+                    <h3>Selected Image:</h3>
+                    <img
                     src={URL.createObjectURL(selectedImage)}
                     alt="Selected"
                     style={{ maxWidth: '100%', height: 'auto' }}
-                />
-                {algorithmDescription && (
-                    <div>
-                    <h3>How this works:</h3>
-                    <h4>{algorithmTitles[selectedImpairment]}</h4>
-                    <p>{algorithmDescription}</p>
-                    </div>
-                )}
+                    />
+                        {algorithmDescription && (
+                            <div>
+                                <h3>How this works:</h3>
+                                <h4>{algorithmTitles[selectedImpairment]}</h4>
+                                    {algorithmDescription.split('\n').map((line, index) => (
+                                        <p key={index}>{line}</p>
+                                ))}
+                            </div>
+                        )}
                 </div>
-                
-            )}
+                )}
             </div>
 
             <div className="transformed-image">
-            <ImageTransformer
-                selectedImage={selectedImage}
-                selectedImpairment={selectedImpairment}
-            />
+                <ImageTransformer
+                    selectedImage={selectedImage}
+                    selectedImpairment={selectedImpairment}
+                />
             </div>
         </div>
+
         </div>
     );
 };
