@@ -1,16 +1,16 @@
 .image-container {
     display: flex;
-    margin-top: 20px;
+    margin-top: 10px;
 }
   
 .selected-image {
     flex: 1;
-    margin-right: 10px;
+    margin-right: 5px;
 }
   
 .transformed-image {
     flex: 1;
-    margin-left: 10px;
+    margin-left: 5px;
 }
   
 @media (max-width: 768px) {
@@ -30,9 +30,9 @@
 }
   
 .selector-container select {
-    margin-right: 10px;
+    margin-right: 5px;
 }
   
 .impairment-description {
-    margin-left: 10px;
+    margin-left: 5px;
 }
