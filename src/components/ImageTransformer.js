@@ -18,14 +18,6 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
     return 0 + 255 * (Math.pow(v, 1.0 / 2.4) * 1.055 - 0.055);
   }
 
-  var sRGB_to_linearRGB_Lookup = Array(256);
-  (function () {
-      var i;
-      for (i = 0; i < 256; i++) {
-          sRGB_to_linearRGB_Lookup[i] = linearRGB_from_sRGB(i);
-      }
-  })();
-
    const brettel_params = {
     protan: {
         rgbCvdFromRgb_1: [
@@ -70,14 +62,7 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
     },
   };
 
-  function brettel(srgb, t, severity) {
-    
-    // Go from sRGB to linearRGB
-    var rgb = Array(3);
-    rgb[0] = sRGB_to_linearRGB_Lookup[srgb[0]];
-    rgb[1] = sRGB_to_linearRGB_Lookup[srgb[1]];
-    rgb[2] = sRGB_to_linearRGB_Lookup[srgb[2]];
-    console.log('RGB', srgb);
+  function brettel(rgb, t, severity) { 
   
     var params = brettel_params[t];
     var separationPlaneNormal = params['separationPlaneNormal'];
@@ -131,6 +116,12 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         return applyTritanopiaTransformation(image);
       case 'achromatopsia':
         return applyAchromatopsiaTransformation(image);
+      case 'protanomaly':
+        return applyProtanomalyTransformation(image);
+      case 'deuteranomaly':
+        return applyDeuteranomalyTransformation(image);
+      case 'tritanomaly':
+        return applyTritanomalyTransformation(image);
       default:
         return null; // Return null for no transformation
     }
@@ -182,14 +173,13 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
           const transformedRGB = brettel([linearRed, linearGreen, linearBlue], 'protan', 1.0);
 
           // Convert linear RGB back to sRGB
-          const transformedRed = sRGB_from_linearRGB(transformedRGB[0]);
-          const transformedGreen = sRGB_from_linearRGB(transformedRGB[1]);
-          const transformedBlue = sRGB_from_linearRGB(transformedRGB[2]);
+          const transformedRed = transformedRGB[0];
+          const transformedGreen = transformedRGB[1];
+          const transformedBlue = transformedRGB[2];
   
-          const avg = 0.299 * red + 0.587 * green + 0.114 * blue;
-          data[i] = avg; // red
-          data[i + 1] = avg; // green
-          data[i + 2] = avg; // blue
+          data[i] = transformedRed; 
+          data[i + 1] = transformedGreen; 
+          data[i + 2] = transformedBlue; 
         }
         ctx.putImageData(imageData, 0, 0);
   
@@ -203,15 +193,99 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
   };
 
   const applyDeuteranopiaTransformation = (image) => {
-    // Transformation logic for deuteranopia
-    // Replace with your implementation
-    return URL.createObjectURL(image);
-  };
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        ctx.drawImage(img, 0, 0);
+  
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const red = data[i];
+          const green = data[i + 1];
+          const blue = data[i + 2];
+  
+          // Convert sRGB to linear RGB
+          const linearRed = linearRGB_from_sRGB(red);
+          const linearGreen = linearRGB_from_sRGB(green);
+          const linearBlue = linearRGB_from_sRGB(blue);
+  
+          // Apply the Brettel transformation for deuteranopia
+          const transformedRGB = brettel([linearRed, linearGreen, linearBlue], 'deutan', 1.0);
+  
+          // Convert linear RGB back to sRGB
+          const transformedRed = transformedRGB[0];
+          const transformedGreen = transformedRGB[1];
+          const transformedBlue = transformedRGB[2];
+  
+          data[i] = transformedRed;
+          data[i + 1] = transformedGreen;
+          data[i + 2] = transformedBlue;
+        }
+        ctx.putImageData(imageData, 0, 0);
+  
+        resolve(canvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
+  };  
 
   const applyTritanopiaTransformation = (image) => {
-    // Transformation logic for tritanopia
-    // Replace with your implementation
-    return URL.createObjectURL(image);
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        ctx.drawImage(img, 0, 0);
+  
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const red = data[i];
+          const green = data[i + 1];
+          const blue = data[i + 2];
+  
+          // Convert sRGB to linear RGB
+          const linearRed = linearRGB_from_sRGB(red);
+          const linearGreen = linearRGB_from_sRGB(green);
+          const linearBlue = linearRGB_from_sRGB(blue);
+  
+          // Apply the Brettel transformation for tritanopia
+          const transformedRGB = brettel([linearRed, linearGreen, linearBlue], 'tritan', 1.0);
+  
+          // Convert linear RGB back to sRGB
+          const transformedRed = transformedRGB[0];
+          const transformedGreen = transformedRGB[1];
+          const transformedBlue = transformedRGB[2];
+  
+          data[i] = transformedRed;
+          data[i + 1] = transformedGreen;
+          data[i + 2] = transformedBlue;
+        }
+        ctx.putImageData(imageData, 0, 0);
+  
+        resolve(canvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
   };
 
   const applyAchromatopsiaTransformation = (image) => {
@@ -248,7 +322,151 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         reject(new Error('Failed to load image.'));
       };
     });
-  };  
+  };
+  
+  const applyProtanomalyTransformation = (image) => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        ctx.drawImage(img, 0, 0);
+  
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const red = data[i];
+          const green = data[i + 1];
+          const blue = data[i + 2];
+  
+          // Convert sRGB to linear RGB
+          const linearRed = linearRGB_from_sRGB(red);
+          const linearGreen = linearRGB_from_sRGB(green);
+          const linearBlue = linearRGB_from_sRGB(blue);
+  
+          // Apply the Brettel transformation for protanomaly with severity 0.6
+          const transformedRGB = brettel([linearRed, linearGreen, linearBlue], 'protan', 0.6);
+  
+          // Convert linear RGB back to sRGB
+          const transformedRed = transformedRGB[0];
+          const transformedGreen = transformedRGB[1];
+          const transformedBlue = transformedRGB[2];
+  
+          data[i] = transformedRed;
+          data[i + 1] = transformedGreen;
+          data[i + 2] = transformedBlue;
+        }
+        ctx.putImageData(imageData, 0, 0);
+  
+        resolve(canvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
+  };
+  
+  const applyDeuteranomalyTransformation = (image) => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        ctx.drawImage(img, 0, 0);
+  
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const red = data[i];
+          const green = data[i + 1];
+          const blue = data[i + 2];
+  
+          // Convert sRGB to linear RGB
+          const linearRed = linearRGB_from_sRGB(red);
+          const linearGreen = linearRGB_from_sRGB(green);
+          const linearBlue = linearRGB_from_sRGB(blue);
+  
+          // Apply the Brettel transformation for deuteranomaly with severity 0.6
+          const transformedRGB = brettel([linearRed, linearGreen, linearBlue], 'deutan', 0.6);
+  
+          // Convert linear RGB back to sRGB
+          const transformedRed = transformedRGB[0];
+          const transformedGreen = transformedRGB[1];
+          const transformedBlue = transformedRGB[2];
+  
+          data[i] = transformedRed;
+          data[i + 1] = transformedGreen;
+          data[i + 2] = transformedBlue;
+        }
+        ctx.putImageData(imageData, 0, 0);
+  
+        resolve(canvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
+  };
+  
+  const applyTritanomalyTransformation = (image) => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        ctx.drawImage(img, 0, 0);
+  
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        for (let i = 0; i < data.length; i += 4) {
+          const red = data[i];
+          const green = data[i + 1];
+          const blue = data[i + 2];
+  
+          // Convert sRGB to linear RGB
+          const linearRed = linearRGB_from_sRGB(red);
+          const linearGreen = linearRGB_from_sRGB(green);
+          const linearBlue = linearRGB_from_sRGB(blue);
+  
+          // Apply the Brettel transformation for tritanomaly with severity 0.6
+          const transformedRGB = brettel([linearRed, linearGreen, linearBlue], 'tritan', 0.6);
+  
+          // Convert linear RGB back to sRGB
+          const transformedRed = transformedRGB[0];
+          const transformedGreen = transformedRGB[1];
+          const transformedBlue = transformedRGB[2];
+  
+          data[i] = transformedRed;
+          data[i + 1] = transformedGreen;
+          data[i + 2] = transformedBlue;
+        }
+        ctx.putImageData(imageData, 0, 0);
+  
+        resolve(canvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
+  };
 
   return (
     <div>
