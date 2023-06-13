@@ -1,38 +1,56 @@
 .image-container {
     display: flex;
     margin-top: 10px;
-}
+  }
   
-.selected-image {
+  .selected-image {
     flex: 1;
     margin-right: 5px;
-}
+  }
   
-.transformed-image {
+  .transformed-image {
     flex: 1;
     margin-left: 5px;
-}
+  }
   
-@media (max-width: 768px) {
+  .algorithm-container {
+    display: flex;
+    margin-top: 10px;
+    max-width: 60%;
+  }
+  
+  .algorithm-description {
+    flex: 1;
+    margin-top: 10px;
+  }
+  
+  @media (max-width: 768px) {
     .image-container {
-        flex-direction: column;
+      flex-direction: column;
     }
   
     .selected-image,
-    .transformed-image {
-        margin: 0;
+    .transformed-image,
+    .algorithm-description {
+      margin: 0;
+    }
+  
+    .algorithm-container {
+      margin-top: 20px;
+      max-width: 100%;
     }
   }
   
-.selector-container {
+  .selector-container {
     display: flex;
     align-items: center;
-}
+  }
   
-.selector-container select {
+  .selector-container select {
     margin-right: 5px;
-}
+  }
   
-.impairment-description {
+  .impairment-description {
     margin-left: 5px;
-}
+  }
+  

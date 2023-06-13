@@ -25,10 +25,11 @@ const ImageUploaderApp = () => {
     protanopia: 'Protanopia: Simulates the inability to perceive red color, resulting in difficulties in distinguishing red and green colors.',
     deuteranopia: 'Deuteranopia: Simulates the inability to perceive green color, resulting in difficulties in distinguishing red and green colors.',
     tritanopia: 'Tritanopia: Simulates the inability to perceive blue color, resulting in difficulties in distinguishing blue and yellow colors.',
-    achromatopsia: 'Achromatopsia: Simulates the inability to perceive any colors, resulting in black and white vision.',
+    achromatopsia: 'Achromatopsia: Simulates the inability to perceive any colors, resulting in black and white vision. Note that this likely does not exist.',
     protanomaly: 'Protanomaly: Simulates a reduced sensitivity to red color, resulting in a shift in the perception of red and green colors.',
     deuteranomaly: 'Deuteranomaly: Simulates a reduced sensitivity to green color, resulting in a shift in the perception of red and green colors.',
     tritanomaly: 'Tritanomaly: Simulates a reduced sensitivity to blue color, resulting in a shift in the perception of blue and yellow colors.',
+    high_myopia: 'High Myopia: Simulates severe nearsightedness, resulting in blurred vision for distant objects. Please wait a few seconds for this image transformation to complete.',
   };
 
   const algorithmTitles = {
@@ -39,10 +40,26 @@ const ImageUploaderApp = () => {
     protanomaly: 'Algorithm for Protanomaly',
     deuteranomaly: 'Algorithm for Deuteranomaly',
     tritanomaly: 'Algorithm for Tritanomaly',
+    high_myopia: 'Algorithm for High myopia',
   };
 
   const getImpairmentDescription = (impairment) => {
-    return impairmentDescriptions[impairment] || '';
+    const description = impairmentDescriptions[impairment] || '';
+    const isAchromatopsia = impairment === 'achromatopsia';
+
+    if (isAchromatopsia) {
+      return (
+        <>
+          Achromatopsia: Simulates the inability to perceive any colors, resulting in black and white vision. Note that this likely does not exist.{' '}
+          <a href="https://www.youtube.com/watch?v=kYZ00B5O_VQ" target="_blank" rel="noopener noreferrer">
+            Learn more
+          </a>
+          .
+        </>
+      );
+    }
+
+    return description;
   };
 
   const getAlgorithmDescription = (impairment) => {
@@ -65,6 +82,7 @@ const ImageUploaderApp = () => {
             <option value="protanomaly">Protanomaly</option>
             <option value="deuteranomaly">Deuteranomaly</option>
             <option value="tritanomaly">Tritanomaly</option>
+            <option value="high_myopia">High Myopia</option>
           </select>
           {impairmentDescription && (
             <p className="impairment-description">{impairmentDescription}</p>
@@ -73,35 +91,39 @@ const ImageUploaderApp = () => {
       </div>
 
       <div className="image-container">
-        <div className="selected-image">
-          {selectedImage && (
-            <div>
-              <h3>Selected Image:</h3>
-              <img
-                src={URL.createObjectURL(selectedImage)}
-                alt="Selected"
-                style={{ maxWidth: '100%', height: 'auto' }}
-              />
-              {algorithmDescription && (
-                <div>
-                  <h3>How this works:</h3>
-                  <h4>{algorithmTitles[selectedImpairment]}</h4>
-                  {algorithmDescription.split('\n').map((line, index) => (
-                    <p key={index}>{line}</p>
-                  ))}
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        {selectedImage && (
+          <div className="selected-image">
+            <h3>Selected Image:</h3>
+            <img
+              src={URL.createObjectURL(selectedImage)}
+              alt="Selected"
+              style={{ maxWidth: '100%', height: 'auto' }}
+            />
+          </div>
+        )}
 
         <div className="transformed-image">
-          <ImageTransformer
-            selectedImage={selectedImage}
-            selectedImpairment={selectedImpairment}
-          />
+          {selectedImage && (
+            <ImageTransformer
+              selectedImage={selectedImage}
+              selectedImpairment={selectedImpairment}
+            />
+          )}
         </div>
       </div>
+
+      {algorithmDescription && (
+        <div className="algorithm-container">
+          <div className="algorithm-description">
+            <h3>How this works:</h3>
+            <h4>{algorithmTitles[selectedImpairment]}</h4>
+            {algorithmDescription.split('\n').map((line, index) => (
+              <p key={index}>{line}</p>
+            ))}
+          </div>
+        </div>
+        )}
+
     </div>
   );
 };
