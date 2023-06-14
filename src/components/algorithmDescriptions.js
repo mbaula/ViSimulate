@@ -47,6 +47,13 @@ const algorithmDescriptions = {
       To simulate high myopia, the code applies a blur effect to the image, mimicking the blurred vision experienced by individuals with severe nearsightedness. The blur radius can be adjusted as needed.\n\n
       The code iterates over each pixel of the image and calculates the average color values of the surrounding pixels within the specified blur radius. It then assigns these average color values to the pixel, resulting in a blurred appearance.\n\n
       Once the blurring operation is complete, the modified image data is placed back onto the canvas, overwriting the original image. The canvas now holds the transformed representation of the input image, simulating how individuals with high myopia perceive distant objects.`,
+
+    glaucoma: `The code takes an image as input, which serves as the starting point for the transformation process. It sets up a virtual canvas, a blank space where the image will be manipulated to simulate glaucoma, a condition characterized by the loss of peripheral vision.\n\n
+      Once the image is loaded onto the canvas, the code resizes the canvas to match the dimensions of the image. This ensures that the transformed result maintains the same size and proportions.\n\n
+      To simulate glaucoma, the code applies a black vignette effect to the image, mimicking the gradual loss of peripheral vision. The vignette effect darkens the outer edges of the image, creating a tunnel-like appearance.\n\n
+      The code iterates over each pixel of the image and calculates the distance of the pixel from the center of the image. Based on this distance, it adjusts the pixel's RGB values towards black, gradually reducing the intensity of colors.\n\n
+      Once the transformation is complete, the modified image data is placed back onto the canvas, overwriting the original image. The canvas now holds the transformed representation of the input image, simulating how individuals with glaucoma perceive their visual field.`,
+    
   };
   
   export default algorithmDescriptions;

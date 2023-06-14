@@ -124,6 +124,8 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         return applyTritanomalyTransformation(image);
       case 'high_myopia':
         return applyHighMyopiaTransformation(image);
+      case 'glaucoma':
+        return applyGlaucomaTransformation(image);
       default:
         return null; 
     }
@@ -525,6 +527,53 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
             data[pixelIndex] = avgR;
             data[pixelIndex + 1] = avgG;
             data[pixelIndex + 2] = avgB;
+          }
+        }
+  
+        ctx.putImageData(imageData, 0, 0);
+  
+        resolve(canvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
+  };
+  
+  const applyGlaucomaTransformation = (image) => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        ctx.drawImage(img, 0, 0);
+  
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+  
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const maxRadius = Math.min(centerX, centerY);
+  
+        for (let y = 0; y < canvas.height; y++) {
+          for (let x = 0; x < canvas.width; x++) {
+            const pixelIndex = (y * canvas.width + x) * 4;
+  
+            const distanceToCenter = Math.sqrt(
+              Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
+            );
+  
+            const vignetteStrength = 1.3 - (distanceToCenter / maxRadius);
+  
+            data[pixelIndex] *= vignetteStrength; 
+            data[pixelIndex + 1] *= vignetteStrength; 
+            data[pixelIndex + 2] *= vignetteStrength;
           }
         }
   

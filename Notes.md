@@ -32,3 +32,8 @@
 3. The process is completed for each pixel of the image, resulting in a blurred version of the original image.
 4. Since it's hard to determine what objects are near, or in the foreground, it does not account for objects near to the eye that should not be blurry.
 
+#### Steps for simulating Glaucoma
+1. The simulation tries to mimic the effects of Figure 1B in this research paper https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4206382/. It simulates the effects of "looking through a straw" or "tunnel vision" which is traditionally what patients with glaucoma describe. 
+2. Calculate the centerX and centerY variables which is used to determine the center of the image. The maximum radius is then picked to be the smallest of these two values.
+3. The function then loops through each pixel in the image and calculates the distance from this pixel to the center of the image. Based off the given distance from the center of the image the pixel is assigned a vignette strength. The RGB values of the image is then multiplied by the vignette strength to apply the black vignette effect.
+4. After modifying the pixels, the new transformed image is put back into the canvas.
