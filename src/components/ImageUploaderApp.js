@@ -31,6 +31,7 @@ const ImageUploaderApp = () => {
     tritanomaly: 'Tritanomaly: Simulates a reduced sensitivity to blue color, resulting in a shift in the perception of blue and yellow colors.',
     high_myopia: 'High Myopia: Simulates severe nearsightedness, resulting in blurred vision for distant objects. Please wait a few seconds for this image transformation to complete.',
     glaucoma: 'Glaucoma: Simulates the loss of peripheral vision, creating a tunnel-like effect where the central vision is relatively preserved while the outer edges appear darkened.',
+    cataracts: 'Cataracts: Simulates the presence of cataracts, which cause clouding of the lens in the eye. This leads to blurred or distorted vision, as if looking through a foggy or hazy window. Please wait a few seconds for this image transformation to complete.',
   };
 
   const algorithmTitles = {
@@ -42,7 +43,8 @@ const ImageUploaderApp = () => {
     deuteranomaly: 'Algorithm for Deuteranomaly',
     tritanomaly: 'Algorithm for Tritanomaly',
     high_myopia: 'Algorithm for High myopia',
-    glaucoma: 'Algorithm for Glaucoma'
+    glaucoma: 'Algorithm for Glaucoma',
+    cataracts: 'Algorithm for Cataracts',
   };
 
   const getImpairmentDescription = (impairment) => {
@@ -86,6 +88,7 @@ const ImageUploaderApp = () => {
             <option value="tritanomaly">Tritanomaly</option>
             <option value="high_myopia">High Myopia</option>
             <option value="glaucoma">Glaucoma</option>
+            <option value="cataracts">Cataracts</option>
           </select>
           {impairmentDescription && (
             <p className="impairment-description">{impairmentDescription}</p>

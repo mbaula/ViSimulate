@@ -37,3 +37,13 @@
 2. Calculate the centerX and centerY variables which is used to determine the center of the image. The maximum radius is then picked to be the smallest of these two values.
 3. The function then loops through each pixel in the image and calculates the distance from this pixel to the center of the image. Based off the given distance from the center of the image the pixel is assigned a vignette strength. The RGB values of the image is then multiplied by the vignette strength to apply the black vignette effect.
 4. After modifying the pixels, the new transformed image is put back into the canvas.
+
+#### Steps for simulating Cataracts
+1. Cataracts affect vision by making the world look cloudy, blurry or dim (https://www.healthline.com/health/cataract-symptoms) This simulation aims to mimic all three symptoms of cataracts. https://sightcentertoledo.org/eyeconditions/vision-impairment-simulator/ has a cataract simulation implemented that I tried to simulate.
+2. For the function to transform the image, there are several different parameters that needed to be defined.
+   * Opacity: simulates the effect of creating a foggy effect
+   * Brightness: simulates the dimness 
+   * Blur Radius: simulates the blurry vision
+3. Apply the blur effect to the image data by implementing similar transformations used in the high myopia simulation.
+4. Iterate through each pixel and ajust RGB values based on the opacity and brightness parameters. The opacity is multiplied by the alpha channel (controls the opacity of a color) to simulate looking through a foggy window. The lower brightness is then also applied to dim colors.
+5. After modifying the pixels, the new transformed image is put back into the canvas.

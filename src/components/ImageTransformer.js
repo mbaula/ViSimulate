@@ -126,6 +126,8 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         return applyHighMyopiaTransformation(image);
       case 'glaucoma':
         return applyGlaucomaTransformation(image);
+      case 'cataracts':
+        return applyCataractsTransformation(image);
       default:
         return null; 
     }
@@ -586,7 +588,93 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         reject(new Error('Failed to load image.'));
       };
     });
-  };  
+  };
+  
+  const applyCataractsTransformation = (image) => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        ctx.drawImage(img, 0, 0);
+  
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+        const opacity = 0.3; // Adjust the opacity to control the level of haziness or fog
+        const brightness = 0.8; // Adjust the brightness
+        const blurRadius = 4; // Adjust the blur radius as needed
+  
+        // Apply blur to the image data
+        for (let y = 0; y < canvas.height; y++) {
+          for (let x = 0; x < canvas.width; x++) {
+            let totalR = 0;
+            let totalG = 0;
+            let totalB = 0;
+            let count = 0;
+  
+            // Apply blur to the surrounding pixels
+            for (let j = -blurRadius; j <= blurRadius; j++) {
+              for (let i = -blurRadius; i <= blurRadius; i++) {
+                const pixelX = x + i;
+                const pixelY = y + j;
+  
+                // Check if the pixel coordinates are within the image bounds
+                if (
+                  pixelX >= 0 &&
+                  pixelX < canvas.width &&
+                  pixelY >= 0 &&
+                  pixelY < canvas.height
+                ) {
+                  const pixelIndex = (pixelY * canvas.width + pixelX) * 4;
+  
+                  totalR += data[pixelIndex];
+                  totalG += data[pixelIndex + 1];
+                  totalB += data[pixelIndex + 2];
+                  count++;
+                }
+              }
+            }
+  
+            const avgR = totalR / count;
+            const avgG = totalG / count;
+            const avgB = totalB / count;
+  
+            const pixelIndex = (y * canvas.width + x) * 4;
+            data[pixelIndex] = avgR;
+            data[pixelIndex + 1] = avgG;
+            data[pixelIndex + 2] = avgB;
+          }
+        }
+  
+        // Apply haziness and dimness to the image data
+        for (let i = 0; i < data.length; i += 4) {
+          const alpha = data[i + 3] / 255; // Get the alpha channel value (opacity)
+          const modifiedAlpha = alpha * opacity; // Apply the opacity to simulate haziness
+  
+          // Set the modified alpha value for each pixel
+          data[i + 3] = Math.round(modifiedAlpha * 255);
+  
+          // Adjust the brightness of each pixel
+          data[i] *= brightness; // Red channel
+          data[i + 1] *= brightness; // Green channel
+          data[i + 2] *= brightness; // Blue channel
+        }
+  
+        ctx.putImageData(imageData, 0, 0);
+  
+        resolve(canvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
+  };      
 
   return (
     <div>
