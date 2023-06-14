@@ -27,4 +27,8 @@
 5. The transformed color values in rgb_cvd are converted back to sRGB using the sRGB_from_linearRGB() function, and the resulting sRGB color values are returned as an array.
 
 #### Steps for simulating High Myopia
+1. For simulating high myopia, I tried to implement a method that mimics the simulation found here: https://coopervision.co.uk/practitioner/clinical-resources/myopia-in-children/myopia-simulator The simulation implemented seems to simulate the blurry vision overall, but the clearer vision for near objects is not entirely simulated.
+2. Specify a 'blur radius' parameter, which determines the amount of neighbouring pixels that will contribute to the blur effect. The code then goes through each pixel of the image and calculate the average color values of surrounding pixels within the blur radius. It adds up the color values of the surrounding pixels and divide by the total number of pixels. The average color value are then assigned to each pixel, blending the colors of nearby pixels together.
+3. The process is completed for each pixel of the image, resulting in a blurred version of the original image.
+4. Since it's hard to determine what objects are near, or in the foreground, it does not account for objects near to the eye that should not be blurry.
 
