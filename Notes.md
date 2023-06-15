@@ -55,3 +55,9 @@
   - Age-related macular degeneration (AMD) is an eye disease that can blur your central vision. It happens when aging causes damage to the macula — the part of the eye that controls sharp, straight-ahead vision. The macula is part of the retina (the light-sensitive tissue at the back of the eye). 
   - AMD is a common condition — it’s a leading cause of vision loss for older adults. AMD doesn’t cause complete blindness, but losing your central vision can make it harder to see faces, read, drive, or do close-up work like cooking or fixing things around the house. 
   - AMD happens very slowly in some people and faster in others. If you have early AMD, you may not notice vision loss for a long time. That’s why it’s important to get regular eye exams to find out if you have AMD. 
+
+##### Diabetic Retinopathy
+* Attempts to simulate the effects in Figure 1 of this research paper: https://www.researchgate.net/publication/337165932_Mobile_Smart_Screening_and_Remote_Monitoring_for_Vision_Loss_Diseases
+* From https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/diabetic-retinopathy
+  - Diabetic retinopathy is an eye condition that can cause vision loss and blindness in people who have diabetes. It affects blood vessels in the retina (the light-sensitive layer of tissue in the back of your eye).
+  - In later stages of the disease, blood vessels in the retina start to bleed into the vitreous (gel-like fluid that fills your eye). If this happens, you may see dark, floating spots or streaks that look like cobwebs. Sometimes, the spots clear up on their own — but it’s important to get treatment right away. Without treatment, scars can form in the back of the eye. Blood vessels may also start to bleed again, or the bleeding may get worse.

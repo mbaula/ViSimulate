@@ -130,6 +130,8 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         return applyCataractsTransformation(image);
       case 'macular_degeneration':
         return applyMacularDegenerationTransformation(image);
+      case 'diabetic_retinopathy':
+        return applyDiabeticRetinopathyTransformation(image);
       default:
         return null; 
     }
@@ -780,7 +782,78 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         reject(new Error('Failed to load image.'));
       };
     });
-  };         
+  }; 
+  
+  const applyDiabeticRetinopathyTransformation = (image) => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        const originalWidth = img.width;
+        const originalHeight = img.height;
+  
+        const scaleRatio = 0.5; // Adjust the scale ratio to resize the image
+        const scaledWidth = originalWidth * scaleRatio;
+        const scaledHeight = originalHeight * scaleRatio;
+  
+        canvas.width = scaledWidth;
+        canvas.height = scaledHeight;
+  
+        ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
+  
+        const imageData = ctx.getImageData(0, 0, scaledWidth, scaledHeight);
+        const data = imageData.data;
+        const centerX = scaledWidth / 2;
+        const centerY = scaledHeight / 2;
+        const maxRadius = Math.min(centerX, centerY);
+  
+        // Create random spots
+        const numSpots = Math.floor(Math.random() * 4) + 3; // Random number of spots between 3 and 6
+        for (let i = 0; i < numSpots; i++) {
+          const spotX = Math.random() * scaledWidth * 0.6 + scaledWidth * 0.2; // Adjust the range to keep the spots mostly in the middle
+          const spotY = Math.random() * scaledHeight * 0.6 + scaledHeight * 0.2; // Adjust the range to keep the spots mostly in the middle
+          const spotRadius = (Math.random() * (maxRadius / 2) + maxRadius / 2) * 1.5; // Random radius 
+  
+          for (let y = 0; y < scaledHeight; y++) {
+            for (let x = 0; x < scaledWidth; x++) {
+              const distanceToSpot = Math.sqrt(Math.pow(x - spotX, 2) + Math.pow(y - spotY, 2));
+  
+              if (distanceToSpot <= spotRadius) {
+                const pixelIndex = (y * scaledWidth + x) * 4;
+  
+                const vignetteStrength = 1 - (distanceToSpot / spotRadius);
+                const darknessStrength = 1 - vignetteStrength * vignetteStrength; // Increase the vignette effect and darkness
+  
+                data[pixelIndex] *= darknessStrength;
+                data[pixelIndex + 1] *= darknessStrength;
+                data[pixelIndex + 2] *= darknessStrength;
+              }
+            }
+          }
+        }
+  
+        ctx.putImageData(imageData, 0, 0);
+  
+        // Create a new canvas for the final image with the original size
+        const finalCanvas = document.createElement('canvas');
+        const finalCtx = finalCanvas.getContext('2d');
+        finalCanvas.width = originalWidth;
+        finalCanvas.height = originalHeight;
+  
+        // Resize the transformed image onto the final canvas
+        finalCtx.drawImage(canvas, 0, 0, scaledWidth, scaledHeight, 0, 0, originalWidth, originalHeight);
+  
+        resolve(finalCanvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
+  };                         
 
   return (
     <div>

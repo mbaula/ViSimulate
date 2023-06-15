@@ -32,7 +32,8 @@ const ImageUploaderApp = () => {
     high_myopia: 'High Myopia: Simulates severe nearsightedness, resulting in blurred vision for distant objects. Please wait a few seconds for this image transformation to complete.',
     glaucoma: 'Glaucoma: Simulates the loss of peripheral vision, creating a tunnel-like effect where the central vision is relatively preserved while the outer edges appear darkened.',
     cataracts: 'Cataracts: Simulates the presence of cataracts, which cause clouding of the lens in the eye. This leads to blurred or distorted vision, as if looking through a foggy or hazy window. Please wait a few seconds for this image transformation to complete.',
-    macular_degeneration: 'Macular Degeneration: Simulates the effects of macular degeneration, a common age-related eye condition that affects the central portion of the retina known as the macula. This condition leads to a loss of central vision, resulting in blurriness or distortion in the central visual field. The simulation creates a visual representation that mimics the difficulty in recognizing faces, reading small print, or performing tasks that require sharp central vision. Please wait a few seconds for this image transformation to complete.'
+    macular_degeneration: 'Macular Degeneration: Simulates the effects of macular degeneration, a common age-related eye condition that affects the central portion of the retina known as the macula. This condition leads to a loss of central vision, resulting in blurriness or distortion in the central visual field. The simulation creates a visual representation that mimics the difficulty in recognizing faces, reading small print, or performing tasks that require sharp central vision. Please wait a few seconds for this image transformation to complete.',
+    diabetic_retinopathy: 'Diabetic Retinopathy: Simulates the effects of diabetic retinopathy, a condition caused by damage to the blood vessels in the retina. It can result in blurred vision, floaters or spots in the field of vision, fluctuations in vision, impaired color perception, and in advanced stages, partial or complete vision loss. Please wait a few seconds for this image transformation to complete.'
   };
 
   const algorithmTitles = {
@@ -47,6 +48,7 @@ const ImageUploaderApp = () => {
     glaucoma: 'Algorithm for Glaucoma',
     cataracts: 'Algorithm for Cataracts',
     macular_degeneration: 'Algorithm for Macular Degeneratioon',
+    diabetic_retinopathy: 'Algorithm for Diabetic Retinopathy',
   };
 
   const getImpairmentDescription = (impairment) => {
@@ -91,7 +93,8 @@ const ImageUploaderApp = () => {
             <option value="high_myopia">High Myopia</option>
             <option value="glaucoma">Glaucoma</option>
             <option value="cataracts">Cataracts</option>
-            <option value='macular_degeneration'>Macular Degeneration</option>
+            <option value="macular_degeneration">Macular Degeneration</option>
+            <option value="diabetic_retinopathy">Diabetic Retinopathy</option>
           </select>
           {impairmentDescription && (
             <p className="impairment-description">{impairmentDescription}</p>

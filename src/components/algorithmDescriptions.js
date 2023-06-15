@@ -58,8 +58,13 @@ const algorithmDescriptions = {
       To simulate macular degeneration, which affects central vision, the code applies a blur effect to the image. The strength of the blur is adjusted based on the distance of each pixel from the center of the image. Pixels closer to the center have a higher blur strength, gradually fading out towards the edges.\n\n
       In addition to the blur effect, the code also introduces a "foggy window" effect. The opacity of each pixel is adjusted based on its distance from the center, creating a fog-like appearance. Pixels closer to the center have a higher fog opacity, while those farther away have a lower opacity.\n\n
       The code processes each pixel of the image, calculating the appropriate blur strength and fog opacity based on its position relative to the center. It applies these effects to the pixel's RGB values, resulting in a transformed image that simulates the visual distortion experienced by individuals with macular degeneration.\n\n
-      Finally, the modified image data is placed back onto the canvas, overwriting the original image. The resulting canvas contains the transformed representation of the input image, mimicking the visual effects associated with macular degeneration.\n\n`
-      
+      Finally, the modified image data is placed back onto the canvas, overwriting the original image. The resulting canvas contains the transformed representation of the input image, mimicking the visual effects associated with macular degeneration.\n\n`,
+    
+    diabetic_retinopathy: `The code takes an image as input and sets up a canvas to perform the transformation. The canvas is resized to match the dimensions of the image.\n\n
+      To simulate diabetic retinopathy, the code introduces random dark spots on the image. The number and size of the spots are randomly determined within a range. The spots are more likely to appear closer to the center of the image.\n\n
+      Each spot is represented by a circle with a dark vignette effect. The darkness of the circle is more prominent towards the center and gradually fades towards the edges. The radius of the circles can be adjusted to control their size.\n\n
+      The code processes each pixel of the image and checks if it falls within the boundaries of a spot. If it does, the pixel's RGB values are adjusted to create the vignette effect, making the center darker and the edges lighter.\n\n
+      Once the transformation is complete, the modified image data is placed back onto the canvas, overwriting the original image. The canvas now holds the transformed representation of the input image, simulating the visual effects associated with diabetic retinopathy.\n\n`,
   };
   
   export default algorithmDescriptions;
