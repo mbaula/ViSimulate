@@ -54,12 +54,11 @@ const algorithmDescriptions = {
       The code iterates over each pixel of the image and calculates the distance of the pixel from the center of the image. Based on this distance, it adjusts the pixel's RGB values towards black, gradually reducing the intensity of colors.\n\n
       Once the transformation is complete, the modified image data is placed back onto the canvas, overwriting the original image. The canvas now holds the transformed representation of the input image, simulating how individuals with glaucoma perceive their visual field.`,
     
-    cataracts: `The code takes an image as input, which serves as the starting point for the transformation process. It sets up a virtual canvas, a blank space where the image will be manipulated to simulate cataracts, a condition characterized by a cloudy or hazy vision.\n\n
-      Once the image is loaded onto the canvas, the code resizes the canvas to match the dimensions of the image. This ensures that the transformed result maintains the same size and proportions.\n\n
-      To simulate cataracts, the code applies a combination of effects to the image. Firstly, it applies a blur effect to the image, mimicking the hazy appearance experienced by individuals with cataracts. The blur radius can be adjusted to control the level of haziness.\n\n
-      Next, the code adjusts the opacity and brightness of each pixel to simulate the cloudy vision caused by cataracts. The opacity is reduced to create a translucent or foggy effect, while the brightness is decreased to create a dimming effect.\n\n
-      After applying the blur and adjusting the opacity and brightness, the modified image data is placed back onto the canvas, overwriting the original image. The canvas now holds the transformed representation of the input image, simulating how individuals with cataracts perceive their vision.\n\n
-      Please note that the transformation applied by this code is an approximation and may not fully replicate the exact visual experience of individuals with cataracts. It serves as a visual representation and should not be used for diagnostic purposes.\n\n`
+    macular_degeneration: `The code takes an image as input and sets up a canvas where the transformation process will occur. The canvas is resized to match the dimensions of the input image.\n\n
+      To simulate macular degeneration, which affects central vision, the code applies a blur effect to the image. The strength of the blur is adjusted based on the distance of each pixel from the center of the image. Pixels closer to the center have a higher blur strength, gradually fading out towards the edges.\n\n
+      In addition to the blur effect, the code also introduces a "foggy window" effect. The opacity of each pixel is adjusted based on its distance from the center, creating a fog-like appearance. Pixels closer to the center have a higher fog opacity, while those farther away have a lower opacity.\n\n
+      The code processes each pixel of the image, calculating the appropriate blur strength and fog opacity based on its position relative to the center. It applies these effects to the pixel's RGB values, resulting in a transformed image that simulates the visual distortion experienced by individuals with macular degeneration.\n\n
+      Finally, the modified image data is placed back onto the canvas, overwriting the original image. The resulting canvas contains the transformed representation of the input image, mimicking the visual effects associated with macular degeneration.\n\n`
       
   };
   

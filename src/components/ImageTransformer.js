@@ -128,6 +128,8 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         return applyGlaucomaTransformation(image);
       case 'cataracts':
         return applyCataractsTransformation(image);
+      case 'macular_degeneration':
+        return applyMacularDegenerationTransformation(image);
       default:
         return null; 
     }
@@ -674,7 +676,111 @@ const ImageTransformer = ({ selectedImage, selectedImpairment }) => {
         reject(new Error('Failed to load image.'));
       };
     });
-  };      
+  };
+  
+  const applyMacularDegenerationTransformation = (image) => {
+    return new Promise((resolve, reject) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+      img.src = URL.createObjectURL(image);
+  
+      img.onload = () => {
+        const originalWidth = img.width;
+        const originalHeight = img.height;
+  
+        const scaleRatio = 0.5; // Adjust the scale ratio to resize the image
+        const scaledWidth = originalWidth * scaleRatio;
+        const scaledHeight = originalHeight * scaleRatio;
+  
+        canvas.width = scaledWidth;
+        canvas.height = scaledHeight;
+  
+        ctx.drawImage(img, 0, 0, scaledWidth, scaledHeight);
+  
+        const imageData = ctx.getImageData(0, 0, scaledWidth, scaledHeight);
+        const data = imageData.data;
+        const centerX = scaledWidth / 2;
+        const centerY = scaledHeight / 2;
+        const maxRadius = Math.min(centerX, centerY);
+        const blurRadius = 10; // Adjust the blur radius as needed
+        const fogOpacity = 1; // Adjust the opacity of the fog effect
+  
+        for (let y = 0; y < scaledHeight; y++) {
+          for (let x = 0; x < scaledWidth; x++) {
+            const distanceToCenter = Math.sqrt(
+              Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2)
+            );
+  
+            const vignetteStrength = 1 - (distanceToCenter / maxRadius);
+            const blurStrength = 1.6 * vignetteStrength; // Adjust the strength of the blur
+            const fogStrength = fogOpacity * vignetteStrength; // Adjust the strength of the fog
+  
+            if (distanceToCenter <= maxRadius) {
+              let totalR = 0;
+              let totalG = 0;
+              let totalB = 0;
+              let count = 0;
+  
+              // Apply blur to the surrounding pixels
+              for (let j = -blurRadius; j <= blurRadius; j++) {
+                for (let i = -blurRadius; i <= blurRadius; i++) {
+                  const pixelX = x + i;
+                  const pixelY = y + j;
+  
+                  // Check if the pixel coordinates are within the image bounds
+                  if (
+                    pixelX >= 0 &&
+                    pixelX < scaledWidth &&
+                    pixelY >= 0 &&
+                    pixelY < scaledHeight
+                  ) {
+                    const pixelIndex = (pixelY * scaledWidth + pixelX) * 4;
+  
+                    totalR += data[pixelIndex];
+                    totalG += data[pixelIndex + 1];
+                    totalB += data[pixelIndex + 2];
+                    count++;
+                  }
+                }
+              }
+  
+              const avgR = totalR / count;
+              const avgG = totalG / count;
+              const avgB = totalB / count;
+  
+              const pixelIndex = (y * scaledWidth + x) * 4;
+  
+              data[pixelIndex] = (data[pixelIndex] * (1 - blurStrength)) + (avgR * blurStrength);
+              data[pixelIndex + 1] = (data[pixelIndex + 1] * (1 - blurStrength)) + (avgG * blurStrength);
+              data[pixelIndex + 2] = (data[pixelIndex + 2] * (1 - blurStrength)) + (avgB * blurStrength);
+  
+              data[pixelIndex] += (255 - data[pixelIndex]) * fogStrength;
+              data[pixelIndex + 1] += (255 - data[pixelIndex + 1]) * fogStrength;
+              data[pixelIndex + 2] += (255 - data[pixelIndex + 2]) * fogStrength;
+            }
+          }
+        }
+  
+        ctx.putImageData(imageData, 0, 0);
+  
+        // Create a new canvas for the final image with the original size
+        const finalCanvas = document.createElement('canvas');
+        const finalCtx = finalCanvas.getContext('2d');
+        finalCanvas.width = originalWidth;
+        finalCanvas.height = originalHeight;
+  
+        // Resize the transformed image onto the final canvas
+        finalCtx.drawImage(canvas, 0, 0, scaledWidth, scaledHeight, 0, 0, originalWidth, originalHeight);
+  
+        resolve(finalCanvas.toDataURL());
+      };
+  
+      img.onerror = () => {
+        reject(new Error('Failed to load image.'));
+      };
+    });
+  };         
 
   return (
     <div>

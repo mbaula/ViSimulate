@@ -47,3 +47,11 @@
 3. Apply the blur effect to the image data by implementing similar transformations used in the high myopia simulation.
 4. Iterate through each pixel and ajust RGB values based on the opacity and brightness parameters. The opacity is multiplied by the alpha channel (controls the opacity of a color) to simulate looking through a foggy window. The lower brightness is then also applied to dim colors.
 5. After modifying the pixels, the new transformed image is put back into the canvas.
+
+*** From this point on I will only talk about the algorithms if anything different from above is implemented. I will just write notes on the impairment being simulated instead ***
+
+#### Macular Degeneration
+* From https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/age-related-macular-degeneration:
+  - Age-related macular degeneration (AMD) is an eye disease that can blur your central vision. It happens when aging causes damage to the macula — the part of the eye that controls sharp, straight-ahead vision. The macula is part of the retina (the light-sensitive tissue at the back of the eye). 
+  - AMD is a common condition — it’s a leading cause of vision loss for older adults. AMD doesn’t cause complete blindness, but losing your central vision can make it harder to see faces, read, drive, or do close-up work like cooking or fixing things around the house. 
+  - AMD happens very slowly in some people and faster in others. If you have early AMD, you may not notice vision loss for a long time. That’s why it’s important to get regular eye exams to find out if you have AMD. 
