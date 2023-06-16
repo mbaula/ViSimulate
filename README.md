@@ -1,6 +1,6 @@
 # ViSimulate
 
-Notes for this project: https://github.com/mbaula/ViSimulate/blob/14982c5f59f9cfb1d90b305f498c92eeacf70daa/Notes.md
+Notes for this project: [https://github.com/mbaula/ViSimulate/blob/14982c5f59f9cfb1d90b305f498c92eeacf70daa/Notes.md](https://github.com/mbaula/ViSimulate/blob/54b8799366f0d4bda1c86bf1cabbdeac1064f45c/Notes.md)
 
 ViSimulate is a web application that allows users to upload images and simulate various visual impairments to experience how the images would appear to individuals with different visual conditions. It uses image processing algorithms to transform the images in real-time, providing an interactive and educational experience about different visual impairments.
 
