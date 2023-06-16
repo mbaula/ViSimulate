@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from './Header'; // Import your custom Header component
 
 const VisualImpairmentSimulator = () => {
   const [selectedImpairment, setSelectedImpairment] = useState(null);
@@ -9,7 +10,7 @@ const VisualImpairmentSimulator = () => {
 
   return (
     <div>
-      <h1>Visual Impairment Simulator</h1>
+      <Header /> 
     </div>
   );
 };

@@ -1,0 +1,9 @@
+  .image-uploader-container h2 {
+    margin-top: 0;
+  }
+  
+  .image-uploader-container input[type="file"] {
+    margin-top: 10px;
+    width: 100%;
+  }
+  

@@ -1,0 +1,49 @@
+.header-container {
+    display: inline-block;
+    padding-left: 20px;
+  }
+  
+  .header-container h1 {
+    font-family: 'Cairo', sans-serif;
+    font-weight: bold;
+    font-size: 60px;
+    position: relative;
+    transition: color 0.5s;
+  }
+  
+  .header-container.hovered .vi {
+    color: #FF7F00;
+  }
+  
+  .header-container.hovered .simulate {
+    color: #0099FF;
+  }
+  
+  .header-container h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s;
+  }
+  
+  .header-container.hovered h1::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  @media (max-width: 768px) {
+    .header-container {
+      padding-left: 10px;
+    }
+  
+    .header-container h1 {
+      font-size: 30px;
+    }
+  }
+  

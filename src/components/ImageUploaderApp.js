@@ -47,7 +47,7 @@ const ImageUploaderApp = () => {
     high_myopia: 'Algorithm for High myopia',
     glaucoma: 'Algorithm for Glaucoma',
     cataracts: 'Algorithm for Cataracts',
-    macular_degeneration: 'Algorithm for Macular Degeneratioon',
+    macular_degeneration: 'Algorithm for Macular Degeneration',
     diabetic_retinopathy: 'Algorithm for Diabetic Retinopathy',
   };
 
@@ -75,9 +75,9 @@ const ImageUploaderApp = () => {
   };
 
   return (
-    <div>
+    <div className="body-container">
       <ImageUploader onImageUpload={handleImageUpload} />
-
+  
       <div className="impairment-container">
         <h2>Select Impairment</h2>
         <div className="selector-container">
@@ -101,19 +101,21 @@ const ImageUploaderApp = () => {
           )}
         </div>
       </div>
-
+  
       <div className="image-container">
-        {selectedImage && (
-          <div className="selected-image">
-            <h3>Selected Image:</h3>
-            <img
-              src={URL.createObjectURL(selectedImage)}
-              alt="Selected"
-              style={{ maxWidth: '100%', height: 'auto' }}
-            />
-          </div>
-        )}
-
+        <div className="selected-image">
+          {selectedImage && (
+            <>
+              <h3>Selected Image:</h3>
+              <img
+                src={URL.createObjectURL(selectedImage)}
+                alt="Selected"
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
+            </>
+          )}
+        </div>
+  
         <div className="transformed-image">
           {selectedImage && (
             <ImageTransformer
@@ -123,7 +125,7 @@ const ImageUploaderApp = () => {
           )}
         </div>
       </div>
-
+  
       {algorithmDescription && (
         <div className="algorithm-container">
           <div className="algorithm-description">
@@ -134,10 +136,9 @@ const ImageUploaderApp = () => {
             ))}
           </div>
         </div>
-        )}
-
+      )}
     </div>
-  );
+  );      
 };
 
 export default ImageUploaderApp;

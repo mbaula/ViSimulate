@@ -1,4 +1,5 @@
 import React from 'react';
+import './css/ImageUploader.css';
 
 const ImageUploader = ({ onImageUpload }) => {
   const handleImageChange = (event) => {
@@ -7,7 +8,7 @@ const ImageUploader = ({ onImageUpload }) => {
   };
 
   return (
-    <div>
+    <div className="image-uploader-container">
       <h2>Upload an Image</h2>
       <input type="file" accept="image/png, image/jpeg" onChange={handleImageChange} />
     </div>
