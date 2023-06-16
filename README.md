@@ -19,13 +19,13 @@ The motivation behind ViSimulate is to raise awareness and promote empathy for i
 ## Showcase
 
 #### Protanopia
-![Protanopia](<../readme_images/Screenshot (168).png>)
+![Protanopia](<./readme_images/Screenshot (168).png>)
 
 #### Tritanopia
-![Alt text](../readme_images/image-2.png)
+![Alt text](./readme_images/image-2.png)
 
 #### Macular Degeneration
-![Alt text](../readme_images/image.png)
+![Alt text](./readme_images/image.png)
 
 ## Installation
 
