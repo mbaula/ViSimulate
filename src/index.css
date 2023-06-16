@@ -47,11 +47,11 @@ h6 {
 }
 
 p {
-  font-size: 24px;
+  font-size: 16px;
 }
 
 a {
-  font-size: 24px;
+  font-size: 16px;
 }
 
 @media (max-width: 768px) {
@@ -80,10 +80,10 @@ a {
   }
   
   p {
-    font-size: 20px;
+    font-size: 14px;
   }
   
   a {
-    font-size: 20px;
+    font-size: 14px;
   }
 }
